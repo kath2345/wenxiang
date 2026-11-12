@@ -72,9 +72,11 @@
   .chips { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip { border: 1px solid #3A3A3E; background: transparent; border-radius: 999px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: #C9C4B8; }
   .chip:hover { border-color: #C9A96A; color: #C9A96A; }
+  .chip.on { background: #C9A96A; border-color: #C9A96A; color: #0A0A0B; }
   .label { font-size: 11px; letter-spacing: 3px; color: #A68A56; margin-bottom: 10px; text-transform: uppercase; }
   /* results */
   .result { display: flex; gap: 16px; background: #141416; border: 1px solid #26262A; border-radius: 2px; padding: 20px; margin-top: 14px; animation: fadeUp .6s ease both; cursor: pointer; }
+  .result:hover { border-color: #C9A96A; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
   .result img { width: 108px; height: 136px; object-fit: cover; border-radius: 4px; background: #1E1E20; flex-shrink: 0; }
   .result .info { flex: 1; min-width: 0; }
@@ -102,13 +104,29 @@
   .mini .fam { font-size: 12px; color: #8A857B; margin-top: 6px; letter-spacing: 1px; }
   .mini .occ-line { font-size: 12px; color: #8A857B; margin-top: 2px; }
   /* detail sheet */
-  .detail { display: none; position: fixed; inset: 0; background: rgba(26,26,26,.55); z-index: 10; align-items: flex-end; justify-content: center; }
+  .detail { display: none; position: fixed; inset: 0; background: rgba(10,10,11,.6); z-index: 10; align-items: flex-end; justify-content: center; }
   .detail.open { display: flex; }
-  .sheet { background: #161618; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; border-radius: 12px 12px 0 0; padding: 28px 24px 40px; }
-  .sheet img { width: 100%; max-height: 360px; object-fit: cover; border-radius: 0; }
-  .sheet h3 { font-family: "Songti SC", "STSong", serif; font-size: 28px; margin-top: 14px; text-align: center; }
+  .sheet { background: #161618; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; border-radius: 12px 12px 0 0; padding: 0; position: relative; }
+  .detail.open .sheet { animation: sheetIn .35s cubic-bezier(.22,.61,.36,1) both; }
+  @keyframes sheetIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .sheet img { width: 100%; height: 380px; object-fit: cover; border-radius: 12px 12px 0 0; display: block; }
+  .sheet h3 { font-family: "Songti SC", "STSong", serif; font-size: 34px; margin-top: 6px; text-align: center; letter-spacing: 4px; }
   .sheet .meta { text-align: center; }
-  .sheet .close { float: right; border: 1px solid #3A3A3E; background: #1E1E20; width: 32px; height: 32px; border-radius: 50%; font-size: 14px; cursor: pointer; color: #C9C4B8; }
+  .sheet .close { position: absolute; top: 14px; right: 14px; z-index: 2; border: 1px solid rgba(255,255,255,.35); background: rgba(10,10,11,.5); width: 36px; height: 36px; border-radius: 50%; font-size: 14px; cursor: pointer; color: #FFF; }
+  .note-row { display: flex; gap: 14px; padding: 13px 2px; border-bottom: 1px solid #26262A; text-align: left; }
+  .note-row:last-child { border-bottom: none; }
+  .note-row .nl { width: 42px; flex-shrink: 0; font-size: 12px; letter-spacing: 3px; color: #A68A56; padding-top: 2px; }
+  .note-row .nv { font-size: 14px; color: #E8E2D6; line-height: 1.9; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; border-top: 1px solid #26262A; border-bottom: 1px solid #26262A; padding: 18px 0; margin-top: 20px; text-align: center; }
+  .facts .fl { font-size: 10px; letter-spacing: 3px; color: #A68A56; text-transform: uppercase; }
+  .facts .fv { font-size: 14px; margin-top: 5px; }
+  .tip { border-left: 2px solid #C9A96A; padding: 4px 0 4px 14px; text-align: left; }
+  @media (min-width: 640px) {
+    .detail { align-items: center; padding: 24px; }
+    .sheet { border-radius: 2px; box-shadow: 0 30px 80px rgba(0,0,0,.65); max-width: 680px; }
+    .sheet img { border-radius: 2px 2px 0 0; }
+  }
+  @media (max-width: 480px) { .facts { grid-template-columns: repeat(2, 1fr); } }
   footer { text-align: center; color: #6E6A60; font-size: 12px; margin-top: 96px; line-height: 2.2; letter-spacing: 2px; }
   footer .frule { width: 40px; height: 1px; background: #C9A96A; margin: 0 auto 14px; }
 </style>
@@ -174,12 +192,28 @@
     <h2 class="center">一百款，慢慢挑</h2>
     <div class="goldrule center"></div>
     <div class="sub center">点击任意一款看详情</div>
-    <div class="pills" id="allFilter" style="margin-top:12px">
-      <button class="pill on" data-g="all">全部</button>
-      <button class="pill" data-g="男">男香</button>
-      <button class="pill" data-g="女">女香</button>
-      <button class="pill" data-g="中性">中性香</button>
+    <div style="margin-top:16px">
+      <div class="label">适用性别</div>
+      <div class="pills" id="allFilter" style="margin-top:10px">
+        <button class="pill on" data-g="all">全部</button>
+        <button class="pill" data-g="男">男香</button>
+        <button class="pill" data-g="女">女香</button>
+        <button class="pill" data-g="中性">中性香</button>
+      </div>
     </div>
+    <div style="margin-top:18px">
+      <div class="label">香调家族</div>
+      <div class="chips" id="famChips" style="margin-top:10px"></div>
+    </div>
+    <div style="margin-top:18px">
+      <div class="label">适合季节</div>
+      <div class="pills" id="seasonPills" style="margin-top:10px">
+        <button class="pill on" data-s="all">不限季节</button>
+        <button class="pill" data-s="春夏">春夏</button>
+        <button class="pill" data-s="秋冬">秋冬</button>
+      </div>
+    </div>
+    <div class="sub center" id="allCount" style="margin-top:18px">共 100 款</div>
     <div class="grid2" id="allGrid"><div class="mini" onclick="showDetail('sauvage')"><img data-pid="sauvage" src="images/sauvage.jpg" alt="旷野"><div class="brand">迪奥</div><h4>旷野<small>Dior Sauvage</small></h4><div class="fam">木质芳香 · 男香</div><div class="occ-line">日常 · 约会 · 派对</div></div><div class="mini" onclick="showDetail('acqua-di-gio')"><img data-pid="acqua-di-gio" src="images/acqua-di-gio.jpg" alt="寄情水"><div class="brand">阿玛尼</div><h4>寄情水<small>Acqua di Giò</small></h4><div class="fam">海洋柑橘 · 男香</div><div class="occ-line">日常 · 夏日 · 运动</div></div><div class="mini" onclick="showDetail('cool-water')"><img data-pid="cool-water" src="images/cool-water.jpg" alt="冷水"><div class="brand">大卫杜夫</div><h4>冷水<small>Davidoff Cool Water</small></h4><div class="fam">海洋芳香 · 男香</div><div class="occ-line">日常 · 夏日 · 运动</div></div><div class="mini" onclick="showDetail('aqva')"><img data-pid="aqva" src="images/aqva.jpg" alt="碧蓝"><div class="brand">宝格丽</div><h4>碧蓝<small>Bvlgari Aqva Pour Homme</small></h4><div class="fam">海洋木质 · 男香</div><div class="occ-line">约会 · 夏夜 · 派对</div></div><div class="mini" onclick="showDetail('issey')"><img data-pid="issey" src="images/issey.jpg" alt="一生之水"><div class="brand">三宅一生</div><h4>一生之水<small>L'Eau d'Issey Pour Homme</small></h4><div class="fam">柑橘木质 · 男香</div><div class="occ-line">通勤 · 日常 · 春夏</div></div><div class="mini" onclick="showDetail('bleu-chanel')"><img data-pid="bleu-chanel" src="images/bleu-chanel.jpg" alt="蔚蓝"><div class="brand">香奈儿</div><h4>蔚蓝<small>Bleu de Chanel</small></h4><div class="fam">木质芳香 · 男香</div><div class="occ-line">正式 · 通勤 · 约会</div></div><div class="mini" onclick="showDetail('aventus')"><img data-pid="aventus" src="images/aventus.jpg" alt="阿文图斯"><div class="brand">Creed</div><h4>阿文图斯<small>Creed Aventus</small></h4><div class="fam">果香木质 · 男香</div><div class="occ-line">正式 · 商务 · 约会</div></div><div class="mini" onclick="showDetail('terre')"><img data-pid="terre" src="images/terre.jpg" alt="大地"><div class="brand">爱马仕</div><h4>大地<small>Terre d'Hermès</small></h4><div class="fam">木质矿物 · 男香</div><div class="occ-line">秋冬 · 正式 · 日常</div></div><div class="mini" onclick="showDetail('oud-wood')"><img data-pid="oud-wood" src="images/oud-wood.jpg" alt="乌木沉香"><div class="brand">Tom Ford</div><h4>乌木沉香<small>Tom Ford Oud Wood</small></h4><div class="fam">木质乌木 · 中性香</div><div class="occ-line">晚宴 · 约会 · 秋冬</div></div><div class="mini" onclick="showDetail('santal33')"><img data-pid="santal33" src="images/santal33.jpg" alt="檀香33"><div class="brand">Le Labo</div><h4>檀香33<small>Le Labo Santal 33</small></h4><div class="fam">木质皮革 · 中性香</div><div class="occ-line">日常 · 约会 · 秋冬</div></div><div class="mini" onclick="showDetail('eros')"><img data-pid="eros" src="images/eros.jpg" alt="爱罗斯"><div class="brand">范思哲</div><h4>爱罗斯<small>Versace Eros</small></h4><div class="fam">清新东方 · 男香</div><div class="occ-line">派对 · 约会 · 夜店</div></div><div class="mini" onclick="showDetail('swy')"><img data-pid="swy" src="images/swy.jpg" alt="成就你挚爱"><div class="brand">阿玛尼</div><h4>成就你挚爱<small>Stronger With You Intensely</small></h4><div class="fam">东方辛辣 · 男香</div><div class="occ-line">约会 · 秋冬 · 晚宴</div></div><div class="mini" onclick="showDetail('mojave')"><img data-pid="mojave" src="images/mojave.jpg" alt="莫哈维之影"><div class="brand">Byredo</div><h4>莫哈维之影<small>Byredo Mojave Ghost</small></h4><div class="fam">木质花香 · 中性香</div><div class="occ-line">日常 · 约会 · 春夏</div></div><div class="mini" onclick="showDetail('coco')"><img data-pid="coco" src="images/coco.jpg" alt="可可小姐"><div class="brand">香奈儿</div><h4>可可小姐<small>Chanel Coco Mademoiselle</small></h4><div class="fam">花香柑橘 · 女香</div><div class="occ-line">约会 · 日常 · 派对</div></div><div class="mini" onclick="showDetail('lavie')"><img data-pid="lavie" src="images/lavie.jpg" alt="美丽人生"><div class="brand">兰蔻</div><h4>美丽人生<small>La Vie Est Belle</small></h4><div class="fam">花香美食 · 女香</div><div class="occ-line">约会 · 日常 · 秋冬</div></div><div class="mini" onclick="showDetail('libre')"><img data-pid="libre" src="images/libre.jpg" alt="自由之水"><div class="brand">YSL</div><h4>自由之水<small>YSL Libre</small></h4><div class="fam">薰衣草花香 · 女香</div><div class="occ-line">通勤 · 约会 · 日常</div></div><div class="mini" onclick="showDetail('jadore')"><img data-pid="jadore" src="images/jadore.jpg" alt="真我"><div class="brand">迪奥</div><h4>真我<small>Dior J'adore</small></h4><div class="fam">花香 · 女香</div><div class="occ-line">正式 · 晚宴 · 约会</div></div><div class="mini" onclick="showDetail('no5')"><img data-pid="no5" src="images/no5.jpg" alt="五号"><div class="brand">香奈儿</div><h4>五号<small>Chanel N°5</small></h4><div class="fam">花香醛香 · 女香</div><div class="occ-line">正式 · 晚宴 · 重要场合</div></div><div class="mini" onclick="showDetail('black-opium')"><img data-pid="black-opium" src="images/black-opium.jpg" alt="黑鸦片"><div class="brand">YSL</div><h4>黑鸦片<small>YSL Black Opium</small></h4><div class="fam">咖啡花香 · 女香</div><div class="occ-line">派对 · 约会 · 夜晚</div></div><div class="mini" onclick="showDetail('chance')"><img data-pid="chance" src="images/chance.jpg" alt="邂逅柔情"><div class="brand">香奈儿</div><h4>邂逅柔情<small>Chanel Chance Eau Tendre</small></h4><div class="fam">花果香 · 女香</div><div class="occ-line">约会 · 日常 · 春夏</div></div></div>
   </div>
 
@@ -196,9 +230,11 @@
 <script src="data.js"></script>
 <script>
 let PERFUMES = [];
+let allGender = 'all', allFam = 'all', allSeason = 'all';
 function loadPerfumes() {
   PERFUMES = WENXIANG.PERFUMES.map(WENXIANG.withImg);
-  renderAll('all');
+  buildFamChips();
+  applyAllFilters();
 }
 
 let gender = 'all';
@@ -249,9 +285,36 @@ function miniCard(p) {
     + '</div>';
 }
 
-function renderAll(g) {
-  const list = PERFUMES.filter(p => g === 'all' || p.gender === g || p.gender === '中性');
+function famGroup(p) {
+  const f = p.family;
+  if (f.includes('海洋')) return '海洋';
+  if (f.includes('柑橘')) return '柑橘';
+  if (f.includes('东方')) return '东方';
+  if (f.includes('花香') || f.includes('花果')) return '花香';
+  if (f.includes('木质')) return '木质';
+  if (f.includes('芳香')) return '芳香';
+  if (f.includes('果香')) return '果香';
+  if (f.includes('琥珀') || f.includes('美食')) return '琥珀美食';
+  return '其他';
+}
+
+function buildFamChips() {
+  const counts = {};
+  PERFUMES.forEach(p => { const g = famGroup(p); counts[g] = (counts[g] || 0) + 1; });
+  const order = ['海洋', '柑橘', '东方', '花香', '木质', '芳香', '果香', '琥珀美食', '其他'];
+  const groups = order.filter(g => counts[g]);
+  document.getElementById('famChips').innerHTML = '<span class="chip on" data-f="all">全部</span>'
+    + groups.map(g => '<span class="chip" data-f="' + g + '">' + g + ' · ' + counts[g] + '</span>').join('');
+}
+
+function applyAllFilters() {
+  const list = PERFUMES.filter(p =>
+    (allGender === 'all' || p.gender === allGender || p.gender === '中性')
+    && (allFam === 'all' || famGroup(p) === allFam)
+    && (allSeason === 'all' || p.season === '四季' || p.season === allSeason)
+  );
   document.getElementById('allGrid').innerHTML = list.map(miniCard).join('');
+  document.getElementById('allCount').textContent = '共 ' + list.length + ' 款';
 }
 
 function renderOcc(occ) {
@@ -264,15 +327,28 @@ function showDetail(id) {
   document.getElementById('sheet').innerHTML =
     '<button class="close" onclick="closeDetail()">✕</button>'
     + '<img src="' + p.img + '" alt="' + p.name + '">'
-    + '<h3>' + p.brand + ' ' + p.name + '</h3>'
-    + '<div class="meta">' + p.en + ' · ' + p.family + ' · ' + p.conc + ' · ' + p.gender + '香 · 适合' + p.season + '</div>'
+    + '<div style="padding:6px 24px 40px">'
+    + '<div class="brand" style="text-align:center;margin-top:20px;font-size:12px">' + p.brand + '</div>'
+    + '<h3>' + p.name + '</h3>'
+    + '<div class="meta">' + p.en + '</div>'
     + '<div class="goldrule center"></div>'
     + '<div class="desc" style="font-size:15px;text-align:center">' + p.desc + '</div>'
-    + '<div class="notes" style="margin-top:12px"><b>前调</b> ' + p.top + '<br><b>中调</b> ' + p.heart + '<br><b>后调</b> ' + p.base + '</div>'
-    + '<div class="label" style="margin-top:14px">适合场合</div>'
-    + '<div class="tags">' + p.occ.map(o => '<span class="tag occ">' + o + '</span>').join('') + '</div>'
-    + '<div class="label" style="margin-top:14px">这样喷更好</div>'
-    + '<div class="desc">' + tipFor(p) + '</div>';
+    + '<div style="margin-top:18px">'
+    + '<div class="note-row"><div class="nl">前调</div><div class="nv">' + p.top + '</div></div>'
+    + '<div class="note-row"><div class="nl">中调</div><div class="nv">' + p.heart + '</div></div>'
+    + '<div class="note-row"><div class="nl">后调</div><div class="nv">' + p.base + '</div></div>'
+    + '</div>'
+    + '<div class="facts">'
+    + '<div><div class="fl">香调家族</div><div class="fv">' + p.family + '</div></div>'
+    + '<div><div class="fl">浓度</div><div class="fv">' + p.conc + '</div></div>'
+    + '<div><div class="fl">适合季节</div><div class="fv">' + p.season + '</div></div>'
+    + '<div><div class="fl">适用</div><div class="fv">' + p.gender + '香</div></div>'
+    + '</div>'
+    + '<div class="label" style="margin-top:22px;text-align:center">适合场合</div>'
+    + '<div class="tags" style="justify-content:center">' + p.occ.map(o => '<span class="tag occ">' + o + '</span>').join('') + '</div>'
+    + '<div class="label" style="margin-top:22px;text-align:center">这样喷更好</div>'
+    + '<div class="tip desc">' + tipFor(p) + '</div>'
+    + '</div>';
   document.getElementById('detail').classList.add('open');
 }
 function closeDetail() { document.getElementById('detail').classList.remove('open'); }
@@ -303,7 +379,17 @@ document.getElementById('genderPills').addEventListener('click', e => {
 document.getElementById('allFilter').addEventListener('click', e => {
   const b = e.target.closest('.pill'); if (!b) return;
   document.querySelectorAll('#allFilter .pill').forEach(x => x.classList.remove('on'));
-  b.classList.add('on'); renderAll(b.dataset.g);
+  b.classList.add('on'); allGender = b.dataset.g; applyAllFilters();
+});
+document.getElementById('famChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  document.querySelectorAll('#famChips .chip').forEach(x => x.classList.remove('on'));
+  c.classList.add('on'); allFam = c.dataset.f; applyAllFilters();
+});
+document.getElementById('seasonPills').addEventListener('click', e => {
+  const b = e.target.closest('.pill'); if (!b) return;
+  document.querySelectorAll('#seasonPills .pill').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); allSeason = b.dataset.s; applyAllFilters();
 });
 document.getElementById('detail').addEventListener('click', e => { if (e.target.id === 'detail') closeDetail(); });
 const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold: .1});
