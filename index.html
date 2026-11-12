@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>闻香 · 香水推荐</title>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #0A0A0B; color: #F2EDE3; line-height: 1.65; }
+  .serif { font-family: "Songti SC", "STSong", "Noto Serif SC", Georgia, serif; }
+  .eyebrow { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #A68A56; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 56px; }
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .noscript-note { background: #141416; border: 1px solid #26262A; color: #9A958A; border-radius: 10px; padding: 12px 16px; font-size: 13px; text-align: center; margin-top: 16px; line-height: 1.8; }
+  /* nav over hero */
+  .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: baseline; padding: 20px 22px; color: #FFF; }
+  .nav .logo { font-family: "Songti SC", "STSong", serif; font-size: 22px; letter-spacing: 10px; }
+  .nav .links a { color: rgba(255,255,255,.85); text-decoration: none; font-size: 11px; letter-spacing: 3px; margin-left: 16px; text-transform: uppercase; }
+  /* hero */
+  .hero { position: relative; height: 100svh; min-height: 600px; overflow: hidden; background: #111; }
+  .hero-slide { position: absolute; inset: 0; opacity: 0; animation: heroFade 16s ease-in-out infinite; }
+  .hero-slide:nth-child(2) { animation-delay: 8s; }
+  .hero-slide img { width: 100%; height: 100%; object-fit: cover; display: block; animation: kenburns 16s ease-in-out infinite alternate; }
+  @keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.09) translateY(-1.5%); } }
+  @keyframes heroFade { 0% { opacity: 0; } 6% { opacity: 1; } 50% { opacity: 1; } 56% { opacity: 0; } 100% { opacity: 0; } }
+  .hero .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,0) 42%, rgba(0,0,0,.68)); z-index: 1; }
+  .hero .hero-text { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 24px 60px; color: #FFF; z-index: 2; }
+  .hero .eyebrow { color: #C9A96A; }
+  .hero h1 { font-family: "Songti SC", "STSong", serif; font-size: clamp(96px, 28vw, 190px); line-height: 1.05; letter-spacing: 30px; text-indent: 30px; font-weight: 600; margin: 12px 0 4px; }
+  .hero .tagline { font-size: 15px; letter-spacing: 7px; color: rgba(255,255,255,.92); }
+  .hero .handle { position: absolute; left: 24px; bottom: 16px; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,.55); z-index: 2; }
+  .hero .rule { width: 56px; height: 1px; background: #C9A96A; margin: 20px 0; }
+  .hero-cta { display: inline-block; border: 1px solid #C9A96A; color: #0A0A0B; text-decoration: none; padding: 16px 36px; font-size: 13px; letter-spacing: 5px; text-indent: 5px; border-radius: 999px; background: #C9A96A; font-weight: 600; box-shadow: 0 8px 28px rgba(201,169,106,.35); }
+  .hero-cta:active { background: #D8BC7E; }
+  .js .hero-text > * { opacity: 0; animation: heroIn .9s cubic-bezier(.22,.61,.36,1) forwards; }
+  .js .hero-text .eyebrow { animation-delay: .15s; }
+  .js .hero-text h1 { animation-delay: .3s; }
+  .js .hero-text .tagline { animation-delay: .5s; }
+  .js .hero-text .rule { animation-delay: .65s; }
+  .js .hero-text .hero-cta { animation-delay: .8s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide, .hero-slide img, .js .hero-text > * { animation: none !important; }
+    .hero-slide:first-child { opacity: 1; }
+    .js .hero-text > * { opacity: 1; }
+  }
+  /* section heads */
+  h2 { font-family: "Songti SC", "STSong", serif; font-size: clamp(34px, 6.5vw, 44px); line-height: 1.25; margin: 12px 0 6px; letter-spacing: 6px; font-weight: 600; }
+  .center { text-align: center; }
+  .sec { margin-top: clamp(76px, 12vw, 120px); }
+  .sub { font-size: 14px; color: #9A958A; line-height: 1.9; }
+  .goldrule { width: 40px; height: 1px; background: #C9A96A; margin: 18px 0; }
+  .goldrule.center { margin-left: auto; margin-right: auto; }
+  .btn-black { width: 100%; margin-top: 20px; background: #C9A96A; color: #0A0A0B; border: none; border-radius: 999px; padding: 16px; font-size: 15px; letter-spacing: 8px; text-indent: 8px; cursor: pointer; font-family: "Songti SC", "STSong", serif; }
+  .btn-black:active { opacity: .8; }
+  /* image band */
+  .band { position: relative; margin: clamp(76px, 12vw, 120px) -20px 0; height: 320px; overflow: hidden; }
+  .band img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .band .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)); }
+  .band .band-text { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; color: #FFF; font-family: "Songti SC", "STSong", serif; font-size: clamp(24px, 5vw, 34px); letter-spacing: 10px; text-indent: 10px; padding: 0 20px; }
+  .band .band-sub { position: absolute; left: 0; right: 0; top: calc(50% + 34px); text-align: center; color: rgba(255,255,255,.8); font-size: 11px; letter-spacing: 5px; }
+  .card { background: transparent; border: none; border-radius: 0; padding: 8px 0 0; margin-top: 20px; }
+  textarea { width: 100%; border: none; border-bottom: 1px solid #3A3A3E; padding: 10px 2px 14px; font-size: 22px; line-height: 1.6; resize: none; outline: none; font-family: "Songti SC", "STSong", serif; background: transparent; color: #F2EDE3; }
+  textarea:focus { border-bottom-color: #C9A96A; }
+  textarea::placeholder { color: #6E6A60; font-style: italic; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .pill { border: 1px solid #3A3A3E; background: transparent; border-radius: 999px; padding: 8px 16px; font-size: 13px; cursor: pointer; color: #C9C4B8; letter-spacing: 2px; }
+  .pill.on { background: #C9A96A; border-color: #C9A96A; color: #0A0A0B; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { border: 1px solid #3A3A3E; background: transparent; border-radius: 999px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: #C9C4B8; }
+  .chip:hover { border-color: #C9A96A; color: #C9A96A; }
+  .label { font-size: 11px; letter-spacing: 3px; color: #A68A56; margin-bottom: 10px; text-transform: uppercase; }
+  /* results */
+  .result { display: flex; gap: 16px; background: #141416; border: 1px solid #26262A; border-radius: 2px; padding: 20px; margin-top: 14px; animation: fadeUp .6s ease both; cursor: pointer; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .result img { width: 108px; height: 136px; object-fit: cover; border-radius: 4px; background: #1E1E20; flex-shrink: 0; }
+  .result .info { flex: 1; min-width: 0; }
+  .rank { display: inline-block; font-size: 11px; letter-spacing: 3px; color: #A68A56; margin-bottom: 4px; text-transform: uppercase; }
+  .result h3 { font-family: "Songti SC", "STSong", serif; font-size: 21px; line-height: 1.35; font-weight: 600; }
+  .result h3 small { display: block; font-size: 12px; color: #9A948A; font-weight: normal; letter-spacing: 1px; font-style: italic; margin-top: 2px; }
+  .notes { font-size: 13px; color: #C9C4B8; margin-top: 8px; line-height: 1.9; }
+  .notes b { color: #F2EDE3; font-weight: 600; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tag { background: #1E1E20; color: #9A958A; font-size: 12px; border-radius: 999px; padding: 2px 10px; }
+  .tag.occ { background: transparent; border: 1px solid #3A3A3E; color: #C9A96A; }
+  .tag.hit { background: #C9A96A; color: #0A0A0B; }
+  .desc { font-size: 14px; margin-top: 10px; color: #C9C4B8; font-family: "Songti SC", "STSong", serif; font-style: italic; }
+  .meta { font-size: 12px; color: #9A948A; margin-top: 8px; letter-spacing: 1px; }
+  .empty { text-align: center; color: #8A857B; font-size: 14px; padding: 24px 0 8px; }
+  /* product grid */
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 44px 20px; margin-top: 26px; }
+  @media (min-width: 640px) { .grid2 { grid-template-columns: repeat(3, 1fr); gap: 48px 24px; } }
+  .mini { cursor: pointer; animation: fadeUp .5s ease both; text-align: center; }
+  .mini img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #1E1E20; display: block; border-radius: 0; transition: transform .6s ease; }
+  .mini:hover img { transform: scale(1.03); }
+  .mini .brand { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #A68A56; margin-top: 10px; }
+  .mini h4 { font-family: "Songti SC", "STSong", serif; font-size: 20px; line-height: 1.4; font-weight: 600; margin-top: 2px; }
+  .mini h4 small { display: block; font-size: 11px; color: #9A948A; font-weight: normal; font-style: italic; margin-top: 2px; }
+  .mini .fam { font-size: 12px; color: #8A857B; margin-top: 6px; letter-spacing: 1px; }
+  .mini .occ-line { font-size: 12px; color: #8A857B; margin-top: 2px; }
+  /* detail sheet */
+  .detail { display: none; position: fixed; inset: 0; background: rgba(26,26,26,.55); z-index: 10; align-items: flex-end; justify-content: center; }
+  .detail.open { display: flex; }
+  .sheet { background: #161618; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; border-radius: 12px 12px 0 0; padding: 28px 24px 40px; }
+  .sheet img { width: 100%; max-height: 360px; object-fit: cover; border-radius: 0; }
+  .sheet h3 { font-family: "Songti SC", "STSong", serif; font-size: 28px; margin-top: 14px; text-align: center; }
+  .sheet .meta { text-align: center; }
+  .sheet .close { float: right; border: 1px solid #3A3A3E; background: #1E1E20; width: 32px; height: 32px; border-radius: 50%; font-size: 14px; cursor: pointer; color: #C9C4B8; }
+  footer { text-align: center; color: #6E6A60; font-size: 12px; margin-top: 96px; line-height: 2.2; letter-spacing: 2px; }
+  footer .frule { width: 40px; height: 1px; background: #C9A96A; margin: 0 auto 14px; }
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="hero-slide"><img src="images/hero.jpg" alt="香水"></div>
+    <div class="hero-slide"><img src="images/hero-2.jpg" alt="香水"></div>
+    <div class="shade"></div>
+    <div class="nav">
+      <div class="logo">闻香</div>
+      <div class="links"><a href="#find">找香</a><a href="#occ">场合</a><a href="#all">全部</a></div>
+    </div>
+    <div class="hero-text">
+      <div class="eyebrow">一百款大牌 · 按感觉找香</div>
+      <h1>闻香</h1>
+      <div class="tagline">黑夜里的一瓶香</div>
+      <div class="rule"></div>
+      <a class="hero-cta" href="#find">开始找香 ↓</a>
+    </div>
+    <div class="handle">@Yu</div>
+  </div>
+  <div class="wrap">
+  <noscript><div class="noscript-note">✦ 小提示：在 Safari / 浏览器里打开，体验更完整哦 ✦</div></noscript>
+
+  <div class="card sec" id="find">
+    <div class="label">01 · Find · 说出你的感觉</div>
+    <textarea id="q" rows="2" placeholder="比如：像是深蓝色大海的海浪……"></textarea>
+    <div class="pills" id="genderPills">
+      <button class="pill on" data-g="all">不限男女</button>
+      <button class="pill" data-g="男">男香</button>
+      <button class="pill" data-g="女">女香</button>
+      <button class="pill" data-g="中性">中性香</button>
+    </div>
+    <button class="btn-black" id="goBtn" style="margin-top:16px">找 香 水</button>
+    <div style="margin-top:18px">
+      <div class="label">或者直接点一个感觉：</div>
+      <div class="chips" id="feelChips"><span class="chip">像是深蓝色大海的海浪</span><span class="chip">阳光下的沙滩</span><span class="chip">雨后森林的清新</span><span class="chip">温暖壁炉边的毛衣</span><span class="chip">干净的白衬衫</span><span class="chip">深夜的神秘感</span><span class="chip">优雅晚宴</span><span class="chip">甜美约会</span><span class="chip">活力派对</span><span class="chip">沉稳大地</span></div>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+
+  <div class="band">
+    <img src="images/mood-ocean.jpg" alt="深蓝大海">
+    <div class="shade"></div>
+    <div class="band-text">香气，是一片风景</div>
+    <div class="band-sub">S C E N T &nbsp;·&nbsp; I S &nbsp; A &nbsp; L A N D S C A P E</div>
+  </div>
+
+  <div class="sec" id="occ">
+    <div class="eyebrow center">02 · Occasion · 按场合选</div>
+    <h2 class="center">今天要去哪</h2>
+    <div class="goldrule center"></div>
+    <div class="sub center">点一个场合，看看适合喷什么</div>
+    <div class="chips" id="occChips" style="margin-top:12px"><span class="chip">日常</span><span class="chip">通勤</span><span class="chip">约会</span><span class="chip">正式</span><span class="chip">派对</span><span class="chip">运动</span><span class="chip">晚宴</span><span class="chip">夏日</span><span class="chip">秋冬</span></div>
+    <div id="occResults"></div>
+  </div>
+
+  <div class="sec" id="all">
+    <div class="eyebrow center">03 · Collection · 全部香水</div>
+    <h2 class="center">一百款，慢慢挑</h2>
+    <div class="goldrule center"></div>
+    <div class="sub center">点击任意一款看详情</div>
+    <div class="pills" id="allFilter" style="margin-top:12px">
+      <button class="pill on" data-g="all">全部</button>
+      <button class="pill" data-g="男">男香</button>
+      <button class="pill" data-g="女">女香</button>
+      <button class="pill" data-g="中性">中性香</button>
+    </div>
+    <div class="grid2" id="allGrid"><div class="mini" onclick="showDetail('sauvage')"><img data-pid="sauvage" src="images/sauvage.jpg" alt="旷野"><div class="brand">迪奥</div><h4>旷野<small>Dior Sauvage</small></h4><div class="fam">木质芳香 · 男香</div><div class="occ-line">日常 · 约会 · 派对</div></div><div class="mini" onclick="showDetail('acqua-di-gio')"><img data-pid="acqua-di-gio" src="images/acqua-di-gio.jpg" alt="寄情水"><div class="brand">阿玛尼</div><h4>寄情水<small>Acqua di Giò</small></h4><div class="fam">海洋柑橘 · 男香</div><div class="occ-line">日常 · 夏日 · 运动</div></div><div class="mini" onclick="showDetail('cool-water')"><img data-pid="cool-water" src="images/cool-water.jpg" alt="冷水"><div class="brand">大卫杜夫</div><h4>冷水<small>Davidoff Cool Water</small></h4><div class="fam">海洋芳香 · 男香</div><div class="occ-line">日常 · 夏日 · 运动</div></div><div class="mini" onclick="showDetail('aqva')"><img data-pid="aqva" src="images/aqva.jpg" alt="碧蓝"><div class="brand">宝格丽</div><h4>碧蓝<small>Bvlgari Aqva Pour Homme</small></h4><div class="fam">海洋木质 · 男香</div><div class="occ-line">约会 · 夏夜 · 派对</div></div><div class="mini" onclick="showDetail('issey')"><img data-pid="issey" src="images/issey.jpg" alt="一生之水"><div class="brand">三宅一生</div><h4>一生之水<small>L'Eau d'Issey Pour Homme</small></h4><div class="fam">柑橘木质 · 男香</div><div class="occ-line">通勤 · 日常 · 春夏</div></div><div class="mini" onclick="showDetail('bleu-chanel')"><img data-pid="bleu-chanel" src="images/bleu-chanel.jpg" alt="蔚蓝"><div class="brand">香奈儿</div><h4>蔚蓝<small>Bleu de Chanel</small></h4><div class="fam">木质芳香 · 男香</div><div class="occ-line">正式 · 通勤 · 约会</div></div><div class="mini" onclick="showDetail('aventus')"><img data-pid="aventus" src="images/aventus.jpg" alt="阿文图斯"><div class="brand">Creed</div><h4>阿文图斯<small>Creed Aventus</small></h4><div class="fam">果香木质 · 男香</div><div class="occ-line">正式 · 商务 · 约会</div></div><div class="mini" onclick="showDetail('terre')"><img data-pid="terre" src="images/terre.jpg" alt="大地"><div class="brand">爱马仕</div><h4>大地<small>Terre d'Hermès</small></h4><div class="fam">木质矿物 · 男香</div><div class="occ-line">秋冬 · 正式 · 日常</div></div><div class="mini" onclick="showDetail('oud-wood')"><img data-pid="oud-wood" src="images/oud-wood.jpg" alt="乌木沉香"><div class="brand">Tom Ford</div><h4>乌木沉香<small>Tom Ford Oud Wood</small></h4><div class="fam">木质乌木 · 中性香</div><div class="occ-line">晚宴 · 约会 · 秋冬</div></div><div class="mini" onclick="showDetail('santal33')"><img data-pid="santal33" src="images/santal33.jpg" alt="檀香33"><div class="brand">Le Labo</div><h4>檀香33<small>Le Labo Santal 33</small></h4><div class="fam">木质皮革 · 中性香</div><div class="occ-line">日常 · 约会 · 秋冬</div></div><div class="mini" onclick="showDetail('eros')"><img data-pid="eros" src="images/eros.jpg" alt="爱罗斯"><div class="brand">范思哲</div><h4>爱罗斯<small>Versace Eros</small></h4><div class="fam">清新东方 · 男香</div><div class="occ-line">派对 · 约会 · 夜店</div></div><div class="mini" onclick="showDetail('swy')"><img data-pid="swy" src="images/swy.jpg" alt="成就你挚爱"><div class="brand">阿玛尼</div><h4>成就你挚爱<small>Stronger With You Intensely</small></h4><div class="fam">东方辛辣 · 男香</div><div class="occ-line">约会 · 秋冬 · 晚宴</div></div><div class="mini" onclick="showDetail('mojave')"><img data-pid="mojave" src="images/mojave.jpg" alt="莫哈维之影"><div class="brand">Byredo</div><h4>莫哈维之影<small>Byredo Mojave Ghost</small></h4><div class="fam">木质花香 · 中性香</div><div class="occ-line">日常 · 约会 · 春夏</div></div><div class="mini" onclick="showDetail('coco')"><img data-pid="coco" src="images/coco.jpg" alt="可可小姐"><div class="brand">香奈儿</div><h4>可可小姐<small>Chanel Coco Mademoiselle</small></h4><div class="fam">花香柑橘 · 女香</div><div class="occ-line">约会 · 日常 · 派对</div></div><div class="mini" onclick="showDetail('lavie')"><img data-pid="lavie" src="images/lavie.jpg" alt="美丽人生"><div class="brand">兰蔻</div><h4>美丽人生<small>La Vie Est Belle</small></h4><div class="fam">花香美食 · 女香</div><div class="occ-line">约会 · 日常 · 秋冬</div></div><div class="mini" onclick="showDetail('libre')"><img data-pid="libre" src="images/libre.jpg" alt="自由之水"><div class="brand">YSL</div><h4>自由之水<small>YSL Libre</small></h4><div class="fam">薰衣草花香 · 女香</div><div class="occ-line">通勤 · 约会 · 日常</div></div><div class="mini" onclick="showDetail('jadore')"><img data-pid="jadore" src="images/jadore.jpg" alt="真我"><div class="brand">迪奥</div><h4>真我<small>Dior J'adore</small></h4><div class="fam">花香 · 女香</div><div class="occ-line">正式 · 晚宴 · 约会</div></div><div class="mini" onclick="showDetail('no5')"><img data-pid="no5" src="images/no5.jpg" alt="五号"><div class="brand">香奈儿</div><h4>五号<small>Chanel N°5</small></h4><div class="fam">花香醛香 · 女香</div><div class="occ-line">正式 · 晚宴 · 重要场合</div></div><div class="mini" onclick="showDetail('black-opium')"><img data-pid="black-opium" src="images/black-opium.jpg" alt="黑鸦片"><div class="brand">YSL</div><h4>黑鸦片<small>YSL Black Opium</small></h4><div class="fam">咖啡花香 · 女香</div><div class="occ-line">派对 · 约会 · 夜晚</div></div><div class="mini" onclick="showDetail('chance')"><img data-pid="chance" src="images/chance.jpg" alt="邂逅柔情"><div class="brand">香奈儿</div><h4>邂逅柔情<small>Chanel Chance Eau Tendre</small></h4><div class="fam">花果香 · 女香</div><div class="occ-line">约会 · 日常 · 春夏</div></div></div>
+  </div>
+
+  <footer>
+    <div class="frule"></div>
+    闻香<br>
+    香水因人而异，建议先去专柜试香，喜欢再买 · 资料仅供参考
+  </footer>
+</div>
+
+<div class="detail" id="detail">
+  <div class="sheet" id="sheet"></div>
+</div>
+<script src="data.js"></script>
+<script>
+let PERFUMES = [];
+function loadPerfumes() {
+  PERFUMES = WENXIANG.PERFUMES.map(WENXIANG.withImg);
+  renderAll('all');
+}
+
+let gender = 'all';
+
+function verdict(score) { return score >= 6 ? '很搭' : score >= 3 ? '很接近' : '可以试试'; }
+
+function resultCard(r, i) {
+  const p = r.p;
+  return '<div class="result" onclick="showDetail(\'' + p.id + '\')">'
+    + '<img src="' + p.img + '" alt="' + p.name + '">'
+    + '<div class="info"><span class="rank">N°' + (i + 1) + ' · ' + verdict(r.score) + '</span>'
+    + '<h3>' + p.brand + ' ' + p.name + ' <small>' + p.en + '</small></h3>'
+    + '<div class="notes"><b>前调</b> ' + p.top + '<br><b>中调</b> ' + p.heart + '<br><b>后调</b> ' + p.base + '</div>'
+    + '<div class="tags">' + r.hits.map(h => '<span class="tag hit">命中「' + h + '」</span>').join('') + '</div>'
+    + '<div class="tags">' + p.occ.map(o => '<span class="tag occ">' + o + '</span>').join('') + '</div>'
+    + '<div class="desc">' + p.desc + '</div>'
+    + '<div class="meta">' + p.family + ' · ' + p.conc + ' · 适合' + p.season + ' · ' + p.gender + '香</div>'
+    + '</div></div>';
+}
+
+function runSearch() {
+  const q = document.getElementById('q').value.trim();
+  const box = document.getElementById('results');
+  if (!q) { box.innerHTML = '<div class="empty">先写一句话，或者点下面任意一个感觉试试</div>'; return; }
+  const top = WENXIANG.matchSearch(q, gender).filter(r => r.score > 0).slice(0, 3);
+  let html = '<h2>为你推荐</h2><div class="sub">根据「' + q.replace(/</g, '&lt;') + '」找到最接近的香水</div>';
+  if (!top.length) {
+    html += '<div class="empty">没有找到很贴切的，试试换个说法，比如加上季节、场合或者具体的味道（柑橘、木质、花香……）</div>'
+      + '<div class="sub">先看看这几款百搭的：</div>'
+      + ['sauvage', 'bleu-chanel', 'libre'].map(id => {
+          const p = PERFUMES.find(x => x.id === id);
+          return resultCard({p, score: 0, hits: []}, 0);
+        }).join('');
+  } else {
+    html += top.map((r, i) => resultCard(r, i)).join('');
+  }
+  box.innerHTML = html;
+  box.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function miniCard(p) {
+  return '<div class="mini" onclick="showDetail(\'' + p.id + '\')">'
+    + '<img data-pid="' + p.id + '" src="' + p.img + '" alt="' + p.name + '">'
+    + '<div class="brand">' + p.brand + '</div>'
+    + '<h4>' + p.name + '<small>' + p.en + '</small></h4>'
+    + '<div class="fam">' + p.family + ' · ' + p.gender + '香</div>'
+    + '<div class="occ-line">' + p.occ.slice(0, 3).join(' · ') + '</div>'
+    + '</div>';
+}
+
+function renderAll(g) {
+  const list = PERFUMES.filter(p => g === 'all' || p.gender === g || p.gender === '中性');
+  document.getElementById('allGrid').innerHTML = list.map(miniCard).join('');
+}
+
+function renderOcc(occ) {
+  const list = PERFUMES.filter(p => p.occ.includes(occ));
+  document.getElementById('occResults').innerHTML = '<div class="sub" style="margin-top:10px">适合「' + occ + '」的香水（' + list.length + ' 款）</div><div class="grid2">' + list.map(miniCard).join('') + '</div>';
+}
+
+function showDetail(id) {
+  const p = PERFUMES.find(x => x.id === id);
+  document.getElementById('sheet').innerHTML =
+    '<button class="close" onclick="closeDetail()">✕</button>'
+    + '<img src="' + p.img + '" alt="' + p.name + '">'
+    + '<h3>' + p.brand + ' ' + p.name + '</h3>'
+    + '<div class="meta">' + p.en + ' · ' + p.family + ' · ' + p.conc + ' · ' + p.gender + '香 · 适合' + p.season + '</div>'
+    + '<div class="goldrule center"></div>'
+    + '<div class="desc" style="font-size:15px;text-align:center">' + p.desc + '</div>'
+    + '<div class="notes" style="margin-top:12px"><b>前调</b> ' + p.top + '<br><b>中调</b> ' + p.heart + '<br><b>后调</b> ' + p.base + '</div>'
+    + '<div class="label" style="margin-top:14px">适合场合</div>'
+    + '<div class="tags">' + p.occ.map(o => '<span class="tag occ">' + o + '</span>').join('') + '</div>'
+    + '<div class="label" style="margin-top:14px">这样喷更好</div>'
+    + '<div class="desc">' + tipFor(p) + '</div>';
+  document.getElementById('detail').classList.add('open');
+}
+function closeDetail() { document.getElementById('detail').classList.remove('open'); }
+function tipFor(p) {
+  if (p.occ.includes('晚宴') || p.occ.includes('正式')) return '正式场合喷在手腕和耳后就好，1–2 下，留香久但不抢戏。';
+  if (p.occ.includes('夏日') || p.occ.includes('运动')) return '夏天出汗多，喷在手臂和胸前，别喷太多，清爽为主。';
+  if (p.occ.includes('约会')) return '约会喷在颈侧和手腕，靠近时才闻得到，若隐若现最迷人。';
+  if (p.occ.includes('派对') || p.occ.includes('夜店')) return '派对可以多半下，喷在衣服上比皮肤上更持久。';
+  return '日常喷在手腕、耳后，早上出门前 1–2 下就够了。';
+}
+
+document.getElementById('feelChips').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) {
+    document.getElementById('q').value = e.target.textContent;
+    runSearch();
+  }
+});
+document.getElementById('occChips').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) renderOcc(e.target.textContent);
+});
+document.getElementById('goBtn').addEventListener('click', runSearch);
+document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runSearch(); } });
+document.getElementById('genderPills').addEventListener('click', e => {
+  const b = e.target.closest('.pill'); if (!b) return;
+  document.querySelectorAll('#genderPills .pill').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); gender = b.dataset.g;
+});
+document.getElementById('allFilter').addEventListener('click', e => {
+  const b = e.target.closest('.pill'); if (!b) return;
+  document.querySelectorAll('#allFilter .pill').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); renderAll(b.dataset.g);
+});
+document.getElementById('detail').addEventListener('click', e => { if (e.target.id === 'detail') closeDetail(); });
+const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold: .1});
+document.querySelectorAll('.card, h2').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+loadPerfumes();
+</script>
+</body>
+</html>
